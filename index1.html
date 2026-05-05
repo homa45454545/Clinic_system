@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>نظام إدارة عيادة</title>
+
+<style>
+body {
+    font-family: Arial;
+    direction: rtl;
+    background: #f5f5f5;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: #2c3e50;
+    color: white;
+    padding: 20px;
+}
+
+img {
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.form {
+    background: white;
+    padding: 20px;
+    margin: 20px auto;
+    width: 320px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ccc;
+}
+
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 5px;
+}
+
+button {
+    padding: 10px;
+    background: #27ae60;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+table {
+    margin: 20px auto;
+    width: 90%;
+    background: white;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.delete {
+    background: red;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+<h1>نظام إدارة العيادة</h1>
+
+<!-- 🖼️ صورة الدكتور أو العيادة -->
+<img src="doctor.png" width="120">
+</header>
+
+<div class="form">
+    <input type="text" id="name" placeholder="اسم المريض">
+    <input type="number" id="age" placeholder="العمر">
+    <input type="text" id="disease" placeholder="الحالة المرضية">
+    <button onclick="addPatient()">إضافة مريض</button>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>الاسم</th>
+            <th>العمر</th>
+            <th>الحالة</th>
+            <th>حذف</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+</table>
+
+<script>
+// ====================== بيانات المرضى ======================
+let patients = [];
+
+// ====================== إضافة مريض ======================
+function addPatient() {
+    let name = document.getElementById("name").value;
+    let age = document.getElementById("age").value;
+    let disease = document.getElementById("disease").value;
+
+    if (name === "" || age === "" || disease === "") {
+        alert("من فضلك املأ كل البيانات");
+        return;
+    }
+
+    let patient = {
+        name: name,
+        age: age,
+        disease: disease
+    };
+
+    patients.push(patient);
+    displayPatients();
+
+    document.getElementById("name").value = "";
+    document.getElementById("age").value = "";
+    document.getElementById("disease").value = "";
+}
+
+// ====================== عرض المرضى ======================
+function displayPatients() {
+    let table = document.getElementById("tableBody");
+    table.innerHTML = "";
+
+    patients.forEach((p, index) => {
+        table.innerHTML += `
+            <tr>
+                <td>${p.name}</td>
+                <td>${p.age}</td>
+                <td>${p.disease}</td>
+                <td><button class="delete" onclick="deletePatient(${index})">حذف</button></td>
+            </tr>
+        `;
+    });
+}
+
+// ====================== حذف مريض ======================
+function deletePatient(index) {
+    patients.splice(index, 1);
+    displayPatients();
+}
+</script>
+
+</body>
+</html>
